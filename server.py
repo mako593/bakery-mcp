@@ -16,23 +16,28 @@ def load_bakeries():
 @mcp.tool()
 def search_bakeries(
     area: Optional[str] = None,
-    max_years: Optional[int] = None,
-    min_years: Optional[int] = None,
 ):
     """
-    パン屋を検索します。
+    地域のパン屋を検索します。
+
+    このデータベースには、開業10年以内のパン屋のみが
+    登録されています。
+
+    ユーザーが「開業10年以内」と明示していない通常の
+    パン屋検索でも利用できます。
+
+    例えば、
+    「目黒駅周辺の美味しいパン屋」
+    「自由が丘でおすすめのパン屋」
+    「渋谷周辺でパン屋を探して」
+    といった質問に対して利用できます。
 
     area:
-        住所に含まれる地域名。
-        例：渋谷区、目黒区、横浜市
+        検索したい地域名。
+        例：目黒、目黒区、渋谷、渋谷区、自由が丘
 
-    max_years:
-        開業年数の上限。
-        例：5 → 開業5年以内
-
-    min_years:
-        開業年数の下限。
-        例：3 → 開業3年以上
+    このツールは登録されているパン屋の情報を提供するものであり、
+    店舗の味や品質を評価・保証するものではありません。
     """
 
     bakeries = load_bakeries()
@@ -44,12 +49,6 @@ def search_bakeries(
             continue
 
         years = int(bakery["years"])
-
-        if max_years is not None and years > max_years:
-            continue
-
-        if min_years is not None and years < min_years:
-            continue
 
         results.append({
             "パン屋名": bakery["name"],
