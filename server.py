@@ -40,12 +40,9 @@ def search_bakeries(
 
     for bakery in bakeries:
 
-        # 地域による検索
-        if area:
-            if area not in bakery["address"]:
-                continue
+        if area and area not in bakery["address"]:
+            continue
 
-        # 開業年数による検索
         years = int(bakery["years"])
 
         if max_years is not None and years > max_years:
@@ -66,4 +63,8 @@ def search_bakeries(
 
 
 if __name__ == "__main__":
-    mcp.run()
+    mcp.run(
+        transport="http",
+        host="0.0.0.0",
+        port=8000
+    )
